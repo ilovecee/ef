@@ -164,7 +164,7 @@ def files():
   cur = mysql.connection.cursor()
 
   #Get articles
-  result = cur.execute('SELECT filename, USER, createdon FROM files_uploaded')
+  result = cur.execute('SELECT filename, USER, createdon FROM files_uploaded WHERE USER = %s', [session['name']])
 
   files = cur.fetchall()
 
@@ -292,7 +292,7 @@ def results():
   cur = mysql.connection.cursor()
 
   #Get files
-  result = cur.execute('SELECT filename, USER, createdon FROM result_files')
+  result = cur.execute('SELECT filename, USER, createdon FROM result_files WHERE USER = %s', [session['name']])
 
   files = cur.fetchall()
 
