@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+ <h3>Results</h3>
+ <hr>
+ <small>Hi {{session.name}}, here are your optimization result files:</small>
+
+ 
+ <table class = 'table table-light'>
+     <tr>
+        <th>Filename</th>
+        <th>User</th>
+        <th>Date</th>
+        <th></th>
+     </tr>
+     {% for file in files %}
+        <tr>
+            <td align = 'left'><i>{{file.filename}}</i></td>
+            <td align = 'left'>{{file.USER}}</td>
+            <td align = 'left'>{{file.createdon}}</td>
+            <td><a href='/download_result/{{file.filename}}' class = 'btn btn-default pullright'>Download</a></td>
+            <td><a href='/delete_result/{{file.filename}}' class = 'btn btn-default pullright'>Delete</a></td>
+            <td></td>
+        </tr>
+
+     {% endfor %}
+
+
+ </table>
+{% endblock %}

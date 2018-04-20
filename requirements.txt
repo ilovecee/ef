@@ -1,0 +1,10 @@
+Flask==0.12.1
+flask_mysqldb
+wtforms
+passlib
+pandas
+numpy
+pulp
+matplotlib
+math
+azure
