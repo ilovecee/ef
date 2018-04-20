@@ -163,7 +163,7 @@ def files():
   # Create Cursor
   cur = mysql.connection.cursor()
 
-  #Get articles
+  #Get files
   result = cur.execute('SELECT filename, USER, createdon FROM files_uploaded WHERE USER = %s', [session['name']])
 
   files = cur.fetchall()
