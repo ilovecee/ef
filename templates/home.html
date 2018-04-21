@@ -1,9 +1,47 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <div class='jumbotron text-center'>
-        <h1>Welcome To Agylytyx Optimizer</h1>
-        <p class='lead'>This application helps on your portfolio management</p>
-    </div>
+<main role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+          <div class="container" style="height:240px;">
+            <h1 class="display-4">Welcome to the Agylytyx Optimizer!</h1>
+            <p>The optimizer shows you what projects you should invest in if you have limited funds.  Some people call this getting the most  “bang for the buck.”  The output is a list of projects you should invest in at each level of spending you desire (also known as the “efficient frontier”).</p>
+            
+            <p>Thank you for participating in our alpha test.   If you have comments as you use this, please feel free to send them to us at <a href="mailto:productsupport@Agylytyx.com">productsupport@agylytyx.com.</a></p>
+
+            <p>If you haven’t created an account yet, please click <a href="/register">"Sign Up"</a> at the upper right hand side of this page. If you have already registered, please click the <a href="/login">“Login”</a> item at the upper right hand side of this page.</p>
+          </div>
+        </div>
+  
+        <div class="container">
+          <!-- Example row of columns -->
+          <div class="row">
+            <div class="col-md-4">
+              <h2>Step 1</h2>
+              <p>After you login, you will want to download the template file by clicking on the <a href="/tempfile_download">“Template”</a> item on the menu at the top of this page. You will need to fill in three columns: <i>a list of projects, how much they cost, and how they will benefit your company (usually measured in sales, bookings, revenue, contribution margin, etc.)</i>.  The benefits and costs columns should consist of financial data (<strong>numbers not text</strong>).</p>
+            </div>
+
+            <div class="col-md-4">
+              <h2>Step 2</h2>
+              <p>Upload the completed template file from your device. Clicking on the <a href='/files'>“Files”</a> item on the menu at the top of this page will allow you to access this feature. This tab will also display all the files you have uploaded. You may upload multiple files. Be sure to name your files something you will recognize.</p>
+            </div>
+
+            <div class="col-md-4">
+              <h2>Step 3</h2>
+              <p>Click “Optimize” for the file you wish to optimize. Once the optimization is done, the <a href='/results'>"Results"</a> page will be displayed. On this page you will also be able to download any files you have optimized.</p>
+            </div>
+          </div>
+  
+          <hr>
+  
+        </div> <!-- /container -->
+  
+</main>
+
+<footer class="container">
+    <p>Copyright © 2018 Agylytyx™. All rights reserved.</p>
+</footer>
 {% endblock %}
 

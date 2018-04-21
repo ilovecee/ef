@@ -106,14 +106,15 @@ def register():
 def login():
   if request.method == 'POST':
     # Get Form Fields
-    name = request.form['name']
+    email = request.form['email']
     password_candidate = request.form['password']
+
 
     # Create Cursor
     cur = mysql.connection.cursor()
 
     # Get user by name
-    result = cur.execute ('SELECT * FROM users WHERE name = %s', [name])
+    result = cur.execute ('SELECT * FROM users WHERE email = %s', [email])
 
     if result > 0:
       # Get stored hash
@@ -124,7 +125,7 @@ def login():
       if sha256_crypt.verify(password_candidate, password):
         # Passed
         session['logged_in'] = True
-        session['name'] = name
+        session['email'] = email
 
         flash ('You are now logged in', 'success')
         return redirect(url_for ('files'))
@@ -135,7 +136,7 @@ def login():
       # Close connection
       cur.close()
     else:
-      error = 'Username not found'
+      error = 'User not found'
       return render_template('login.html', error = error)
 
   return render_template('login.html')  
@@ -164,16 +165,21 @@ def files():
   cur = mysql.connection.cursor()
 
   #Get files
-  result = cur.execute('SELECT filename, USER, createdon FROM files_uploaded WHERE USER = %s', [session['name']])
+  result = cur.execute('SELECT filename, USER, createdon FROM files_uploaded WHERE USER = %s', [session['email']])
 
   files = cur.fetchall()
 
+  #Get user's name
+  cur.execute ('SELECT name FROM users WHERE email = %s', [session['email']])
+  name = cur.fetchone()
+  name = name['name']
+
   if result > 0:
-    return render_template('files.html', files = files)
+    return render_template('files.html', files = files, name = name)
 
   else:
     msg = 'No files found, please upload your files first.'
-    return render_template('files.html', error = msg)
+    return render_template('files.html', error = msg, name = name)
 
   # Close connection
   cur.close()
@@ -204,11 +210,11 @@ def upload():
       now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
       filename_new = os.path.splitext(filename)[0] + '_' + now + os.path.splitext(filename)[1]
       file_service.create_file_from_path (path1, up_path, filename_new, destination)    # Upload the file to Azure Storage Account
-        # Create Cursor
+      # Create Cursor
       cur = mysql.connection.cursor()
 
       # Execute
-      cur.execute ('INSERT INTO files_uploaded (filename, USER, AzureAccount, AzureShare, Directory) VALUES(%s, %s, %s, %s, %s)', (filename_new, session['name'], AzureStorageAccount, path1, up_path))
+      cur.execute ('INSERT INTO files_uploaded (filename, USER, AzureAccount, AzureShare, Directory) VALUES(%s, %s, %s, %s, %s)', (filename_new, session['email'], AzureStorageAccount, path1, up_path))  
 
       # Commit to DB
       mysql.connection.commit()
@@ -244,7 +250,7 @@ def optimize(filename):
   
   if result == 0:
     
-    cur.execute ('INSERT INTO result_files (filename, USER, AzureAccount, AzureShare, Directory) VALUES(%s, %s, %s, %s, %s)', (outfilename, session['name'], AzureStorageAccount, path1, down_path))
+    cur.execute ('INSERT INTO result_files (filename, USER, AzureAccount, AzureShare, Directory) VALUES(%s, %s, %s, %s, %s)', (outfilename, session['email'], AzureStorageAccount, path1, down_path))
 
 
   # Commit to DB
@@ -292,16 +298,21 @@ def results():
   cur = mysql.connection.cursor()
 
   #Get files
-  result = cur.execute('SELECT filename, USER, createdon FROM result_files WHERE USER = %s', [session['name']])
+  result = cur.execute('SELECT filename, USER, createdon FROM result_files WHERE USER = %s', [session['email']])
 
   files = cur.fetchall()
 
+  #Get user's name
+  cur.execute ('SELECT name FROM users WHERE email = %s', [session['email']])
+  name = cur.fetchone()
+  name = name['name']
+
   if result > 0:
-    return render_template('results.html', files = files)
+    return render_template('results.html', files = files, name = name)
 
   else:
     msg = 'No result files found, please optimize your uploaded files first.'
-    return render_template('results.html', error = msg)
+    return render_template('results.html', error = msg, name = name)
 
   # Close connection
   cur.close()
