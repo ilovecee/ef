@@ -135,9 +135,11 @@ def get_result(filename, plot = False):
     df_e = pd.DataFrame()
     x_axis = res_df['Budget']
     y_axis = res_df['Benefit']
+
     writer = pd.ExcelWriter (out_file_name, engine = 'xlsxwriter')
     res_df.to_excel(writer, 'Data')
     df_e.to_excel(writer, 'Chart')
+    y_major = (max(y_axis) - min(y_axis))/20
 
     # Access the XlsxWriter workbook and worksheet objects from the dataframe
     workbook = writer.book
@@ -162,15 +164,15 @@ def get_result(filename, plot = False):
         'name' : 'Portfolio'})
 
     # Format the chart
-    chart1.set_x_axis({'name': 'Budget Levels (in Millions)',
-                    'num_format': '$0',
+    chart1.set_x_axis({'name': 'Budget Levels',
+                    'num_format': '0',
                     'major_unit': 5
                     })
     chart1.set_y_axis({'name': 'Portfolio Benefits (in Millions)',
                     'num_format': '$0.0',
                     'display_units': 'millions',
                     'display_units_visible': False,
-                    'major_unit': 5000000
+                    'major_unit': y_major
                     })
     chart1.set_title ({'name': 'Efficient Frontier'})
     chart1.set_style(14)
