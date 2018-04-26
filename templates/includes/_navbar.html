@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+
+
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <a class="navbar-brand" href="/">Optimizer</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,10 +14,10 @@
           <a class="nav-link" href="/tempfile_download">Template<span class="sr-only">(current)</span></a></li>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/files">Files</a>
+          <a id = "files" class="nav-link" href="/files">Files</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/results">Results</a>
+          <a id = 'results' class="nav-link" href="/results">Results</a>
         </li>
       </ul>
       {% endif %}
@@ -26,6 +30,7 @@
           <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
 
         {% endif %} 
-      </ul>
+       </ul>
     </div>
-  </nav>
+</nav>
+

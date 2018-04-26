@@ -1,9 +1,23 @@
+<!DOCTYPE html>
+
 {% extends 'layout.html' %}
 
 {% block body %}
 
  <h3>Uploaded Files</h3>
- 
+ <script type = 'text/javascript'>
+    window.onload = function (){
+      var x = document.getElementById("files");
+      x.style = "color : white";
+    }
+
+    function change_color(){
+        var x = document.getElementById("spin");
+        x.style = "color : lightblue"
+    }
+
+ </script>
+  
 
  <form id = "upload_form" action="{{ url_for('files')}}" method = "POST" enctype="multipart/form-data">
     <input type="file" name="file" multiple>
@@ -23,8 +37,10 @@
             <td align = 'left'><i>{{file.filename}}</i></td>
             <td align = 'left'>{{file.USER}}</td>
             <td align = 'left'>{{file.createdon}}</td>
-            <td><a href='optimizer/{{file.filename}}' class = 'btn btn-default pullright'>Optimize</a></td>
-            <td><a href='delete_upload/{{file.filename}}' class = 'btn btn-default pullright'>Delete</a></td>
+            <td><a href='optimizer/{{file.filename}}' id = 'btnopt' onclick = "change_color()">Optimize</a>
+                <i class="fa fa-circle-o-notch fa-spin" style = "color: white" id = "spin"></i>
+            </td>
+            <td><a href='delete_upload/{{file.filename}}'>Delete</a></td>
             <td></td>
         </tr>
 
@@ -32,4 +48,6 @@
 
 
  </table>
+ 
+
 {% endblock %}
