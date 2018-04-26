@@ -2,6 +2,12 @@
 
 {% block body %}
     <h3>Register</h3>
+    <script>
+    window.onload = function(){
+        var x = document.getElementById("register")
+        x.style = "color:white"            
+    }
+    </script>
     <hr>
     {% from 'includes/_formhelpers.html' import render_field%}
     <form method='POST' action = ''>
