@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, flash, redirect, url_for, session, logging, send_file
+from flask import Flask, request, jsonify, render_template, flash, redirect, url_for, session, logging, send_file, Markup
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
@@ -90,10 +90,12 @@ def register():
 
     # Close connection
     cur.close()
+    session['logged_in'] = True
+    session['email'] = email
 
-    flash('You are now registered! Please log in', 'success')
+    flash('You are now registered and logged in!', 'success')
 
-    return redirect(url_for('login'))
+    return redirect(url_for('files'))
 
   return render_template('register.html', form=form)  
 
@@ -258,8 +260,9 @@ def optimize(filename):
 
   # Close connection
   cur.close()
-
-  return redirect(url_for('results'))
+  
+  flash ('File optimization completed! Please click <a href = \"/results\" class = \"alert-link\" >here</a> to view.', 'success')
+  return redirect(url_for('files'))
 
 
 
@@ -311,7 +314,7 @@ def results():
     return render_template('results.html', files = files, name = name)
 
   else:
-    msg = 'No result files found, please optimize your uploaded files first.'
+    msg = Markup('No result files found, please optimize your <a href = \"files\" class =\"alert-link\">uploaded files</a> first.')
     return render_template('results.html', error = msg, name = name)
 
   # Close connection
